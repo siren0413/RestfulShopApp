@@ -1,16 +1,40 @@
 package com.restful.shop.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Created by yijunmao on 11/4/14.
  */
+
+@XmlRootElement(name = "customer")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Customer {
+
+    @XmlElement
     private int id;
+
+    @XmlElement
     private String lastName;
+
+    @XmlElement
     private String firstName;
+
+    @XmlElement
     private String street;
+
+    @XmlElement
     private String city;
+
+    @XmlElement
     private String state;
+
+    @XmlElement
     private String zip;
+
+    @XmlElement
     private String country;
 
     public int getId() {
