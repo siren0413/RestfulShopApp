@@ -1,5 +1,7 @@
 package com.restful.shop.app;
 
+import com.restful.shop.providers.JAXBMarshaller;
+import com.restful.shop.providers.JSONMarshaller;
 import com.restful.shop.services.CustomerResourceService;
 
 import javax.ws.rs.ApplicationPath;
@@ -14,17 +16,18 @@ import java.util.Set;
 public class ShoppingApplication extends Application {
 
     private Set<Object> singletons = new HashSet<>();
-    private Set<Class<?>> empty = new HashSet<>();
+    private Set<Class<?>> classes = new HashSet<>();
 
-    public ShoppingApplication(){
-
+    public ShoppingApplication() {
+        classes.add(CustomerResourceService.class);
+        classes.add(JAXBMarshaller.class);
+        classes.add(JSONMarshaller.class);
         //singletons.add(new CustomerResourceService());
     }
 
     @Override
     public Set<Class<?>> getClasses() {
-        empty.add(CustomerResourceService.class);
-        return empty;
+        return classes;
     }
 
     @Override

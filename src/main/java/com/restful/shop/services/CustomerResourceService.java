@@ -1,6 +1,7 @@
 package com.restful.shop.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.restful.shop.annotations.Pretty;
 import com.restful.shop.model.Customer;
 
 
@@ -49,6 +50,7 @@ public class CustomerResourceService implements CustomerResource {
     }
 
     @Override
+    @Pretty
     public Customer getCustomer(int id) {
         final Customer customer = customerDB.get(id);
         if (customer == null) {
@@ -73,23 +75,12 @@ public class CustomerResourceService implements CustomerResource {
     }
 
     @Override
-    public List<Customer> getCustomersToXML() {
+    public List<Customer> getCustomers() {
         List<Customer> list = new LinkedList<>();
         for (Customer customer : customerDB.values()) {
             list.add(customer);
         }
         return list;
-    }
-
-    @Override
-    public StreamingOutput getCustomersToJSON() {
-        return new StreamingOutput() {
-            @Override
-            public void write(OutputStream output) throws IOException, WebApplicationException {
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.writeValue(output, customerDB.values());
-            }
-        };
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.restful.shop.services;
 
+import com.restful.shop.annotations.Pretty;
 import com.restful.shop.model.Customer;
 
 import javax.ws.rs.*;
@@ -7,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.InputStream;
+import java.lang.annotation.Inherited;
 import java.util.List;
 
 /**
@@ -35,12 +37,8 @@ public interface CustomerResource {
     public void updateCustomer(@PathParam("id") int id, Customer customer);
 
     @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public List<Customer> getCustomersToXML();
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public StreamingOutput getCustomersToJSON();
+    @Produces({"application/xml","application/json"})
+    public List<Customer> getCustomers();
 
     @GET
     @Path("all")
