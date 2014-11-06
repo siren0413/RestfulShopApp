@@ -18,7 +18,11 @@ public interface CustomerResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)
-    public Response createCustomer(Customer customer);
+    public Response createCustomerByXML(Customer customer);
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createCustomerByJSON(InputStream is);
 
     @GET
     @Path("{id}")
@@ -32,7 +36,11 @@ public interface CustomerResource {
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public List<Customer> getCustomers();
+    public List<Customer> getCustomersToXML();
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public StreamingOutput getCustomersToJSON();
 
     @GET
     @Path("all")

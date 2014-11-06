@@ -1,10 +1,14 @@
 package com.restful.shop.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restful.shop.model.Customer;
 
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URI;
@@ -23,11 +27,25 @@ public class CustomerResourceService implements CustomerResource {
     private static AtomicInteger idCounter = new AtomicInteger();
 
     @Override
-    public Response createCustomer(Customer customer) {
+    public Response createCustomerByXML(Customer customer) {
         customer.setId(idCounter.incrementAndGet());
         customerDB.put(customer.getId(), customer);
         System.out.println("Created customer " + customer.getId());
         return Response.created(URI.create("/customers/" + customer.getId())).build();
+    }
+
+    @Override
+    public Response createCustomerByJSON(InputStream is) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Customer customer = mapper.readValue(is, Customer.class);
+            customer.setId(idCounter.incrementAndGet());
+            customerDB.put(customer.getId(), customer);
+            return Response.created(URI.create("/customers/" + customer.getId())).build();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -55,12 +73,23 @@ public class CustomerResourceService implements CustomerResource {
     }
 
     @Override
-    public List<Customer> getCustomers() {
+    public List<Customer> getCustomersToXML() {
         List<Customer> list = new LinkedList<>();
-        for(Customer customer: customerDB.values()){
+        for (Customer customer : customerDB.values()) {
             list.add(customer);
         }
         return list;
+    }
+
+    @Override
+    public StreamingOutput getCustomersToJSON() {
+        return new StreamingOutput() {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.writeValue(output, customerDB.values());
+            }
+        };
     }
 
     @Override
