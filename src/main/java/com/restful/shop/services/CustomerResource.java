@@ -1,14 +1,11 @@
 package com.restful.shop.services;
 
-import com.restful.shop.annotations.Pretty;
 import com.restful.shop.model.Customer;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
 import java.io.InputStream;
-import java.lang.annotation.Inherited;
 import java.util.List;
 
 /**
